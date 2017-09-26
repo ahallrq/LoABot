@@ -12,7 +12,7 @@ IDENT="Chaos-Bot"
 REALNAME="AB49K-Chaos-Bot"
 DM="iownall555!iownall555@snoonet/guide/iownall555"
 DMLog=DM.split("!")[0] #Allows the bot to PM dm information to the DM.
-print("Loading bot: configured DM" + DMLog)
+print("Loading bot: configured DM - " + DMLog)
 enemies=[]
 
 def dbaccess(query):
