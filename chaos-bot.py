@@ -15,6 +15,20 @@ DMLog=DM.split("!")[0] #Allows the bot to PM dm information to the DM.
 print("Loading bot: configured DM - " + DMLog)
 enemies=[]
 
+def build_db(dbname):
+	#WARNING protect against accidental database deletion.
+	#This will have to be done BEFORE calling this function as it won't check to see if DB exists.
+	print("Creating new Database - " + dbname)
+	conn = sqlite3.connect(dbname)
+	c = conn.cursor()
+	c.execute('''CREATE TABLE inventory
+		(Item text, Player_Item_Belongs_to text, Item_Level int, Base_Damage int, Base_Defence int, Quantity int)''')
+	c.execute('''CREATE TABLE players 
+		(Player_Name text, Character_Name text,Character_Health int,  Int_ int, Str_ int, Cha_ int, Con_ int, Dex_ int, Gold int, Magic int, Mana int, Points int, Dead int)''')
+	conn.commit()
+	conn.close()
+
+
 def dbaccess(query):
 	conn = sqlite3.connect("chaos.db")
 	c = conn.cursor()
