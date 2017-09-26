@@ -11,6 +11,8 @@ NICK="Chaos-Bot-rq"
 IDENT="Chaos-Bot"
 REALNAME="AB49K-Chaos-Bot"
 DM="iownall555!iownall555@snoonet/guide/iownall555"
+DMLog=DM.split("!")[0] #Allows the bot to PM dm information to the DM.
+print("Loading bot: configured DM - " + DMLog)
 enemies=[]
 
 def dbaccess(query):
@@ -116,7 +118,7 @@ def cmd_additem(src, dst, args):
 			else:
 				oldquantity=int(result[0][0])
 				result=dbaccess("update Inventory set Quantity ='%s' where Player_Item_Belongs_to='%s' and Item='%s'" % ((oldquantity+quantity), character ,args[1]))
-				s.send("PRIVMSG AB49K : addinventory success\r\n")
+				s.send("PRIVMSG %s : addinventory success\r\n" % DMLog)
 				s.send("PRIVMSG %s : You've just had a new item added to your inventory!\r\n" % player)
 		except:
 			try:
@@ -155,7 +157,7 @@ def cmd_takeitem(src, dst, args):
 		try:
 			result=dbaccess("select Quantity from Inventory where Player_Item_Belongs_to='%s' and Item='%s'" % (character ,args[0]))
 			if result == 1:
-				s.send("PRIVMSG AB49K : Invalid Item\r\n")
+				s.send("PRIVMSG %s : Invalid Item\r\n" % DMLog)
 			else:
 				quantity=int(result[0][0])
 			result=dbaccess("update Inventory set Quantity ='%s' where Player_Item_Belongs_to='%s' and Item='%s'" % ((quantity-takequantity), character ,args[0]))
@@ -247,16 +249,16 @@ def cmd_moveitem(src, dst, args):
 		try:
 			result=dbaccess("select Quantity from Inventory where Player_Item_Belongs_to='%s' and Item='%s'" % (character1 ,args[2]))
 			if result == 1:
-				s.send("PRIVMSG AB49K : Invalid Item\r\n")
+				s.send("PRIVMSG %s : Invalid Item\r\n" % DMLog)
 			else:
 				quantity=int(result[0][0])
 			result=dbaccess("update Inventory set Player_Item_Belongs_to ='%s' where Player_Item_Belongs_to='%s' and Item='%s'" % (character2, character1 ,args[2]))
 			
 		except Exception,e:
-			s.send("PRIVMSG AB49K : Moving %s from %s to %s -- FAILED\r\n" % (args[2], character1, character2))
+			s.send("PRIVMSG %s : Moving %s from %s to %s -- FAILED\r\n" % ( DMLog, args[2], character1, character2))
 			print str(e)	
 		if result == 1:
-			s.send("PRIVMSG AB49K : Moved %s from %s to %s\r\n" % (args[2], character1, character2))
+			s.send("PRIVMSG %s : Moved %s from %s to %s\r\n" % (DMLog, args[2], character1, character2))
 			s.send("PRIVMSG %s : You've just had an item added from your inventory!\r\n" % character2)
 		else:
 			pass				
